@@ -1,0 +1,607 @@
+/**
+ * MapVision Analytics - Estilos del Panel Administrativo
+ * Archivo: admin.css
+ * Descripción: Estilos CSS para el panel de administración
+ */
+
+/* Reset y Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #f5f6fa;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Header Administrativo */
+.admin-header {
+    background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+    color: white;
+    padding: 20px 30px;
+    box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3);
+    position: relative;
+}
+
+.admin-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.03) 10px,
+        rgba(255,255,255,0.03) 20px
+    );
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-shield {
+    font-size: 32px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.brand-info h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.brand-info p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.admin-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-user {
+    text-align: right;
+}
+
+.admin-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.admin-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Botones Administrativos */
+.btn-admin {
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-admin:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn-admin.btn-danger {
+    background: rgba(220, 53, 69, 0.8);
+    border-color: rgba(220, 53, 69, 0.8);
+}
+
+.btn-admin.btn-danger:hover {
+    background: rgba(220, 53, 69, 1);
+}
+
+.btn-admin.btn-success {
+    background: rgba(40, 167, 69, 0.8);
+    border-color: rgba(40, 167, 69, 0.8);
+}
+
+.btn-admin.btn-success:hover {
+    background: rgba(40, 167, 69, 1);
+}
+
+/* Navegación Administrativa */
+.admin-nav {
+    background: white;
+    border-bottom: 2px solid #e9ecef;
+    padding: 0 30px;
+    overflow-x: auto;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+}
+
+.admin-nav-item {
+    position: relative;
+    padding: 18px 0;
+    color: #495057;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-nav-item:hover {
+    color: #dc3545;
+}
+
+.admin-nav-item.active {
+    color: #dc3545;
+}
+
+.admin-nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #dc3545, #6f42c1);
+    border-radius: 2px;
+}
+
+.nav-icon {
+    font-size: 16px;
+}
+
+/* Contenido Principal */
+.admin-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* Dashboard Cards - Estadísticas */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #dc3545;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), transparent);
+    border-radius: 50%;
+    transform: translate(20px, -20px);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stat-icon {
+    font-size: 24px;
+    color: #dc3545;
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #dc3545;
+    margin: 0;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 5px 0 0 0;
+    font-weight: 500;
+}
+
+.stat-trend {
+    font-size: 12px;
+    margin-top: 10px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.stat-trend.up {
+    background: #d4edda;
+    color: #155724;
+}
+
+.stat-trend.down {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.stat-trend.stable {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Secciones del Panel */
+.admin-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.section-header {
+    padding: 25px 30px;
+    border-bottom: 1px solid #e9ecef;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #495057;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-subtitle {
+    font-size: 14px;
+    color: #6c757d;
+    margin: 5px 0 0 0;
+}
+
+.section-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.section-content {
+    padding: 30px;
+}
+
+/* Alertas del Sistema */
+.admin-alerts {
+    margin-bottom: 30px;
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border-left-color: #ffc107;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left-color: #dc3545;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border-left-color: #17a2b8;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left-color: #28a745;
+}
+
+.alert-icon {
+    font-size: 18px;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 600;
+    margin: 0 0 2px 0;
+}
+
+.alert-message {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Estados de Carga */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    font-size: 18px;
+    color: #dc3545;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #dc3545;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Notificaciones */
+.admin-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 10000;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+}
+
+.admin-notification-success {
+    background: #28a745;
+}
+
+.admin-notification-error {
+    background: #dc3545;
+}
+
+.admin-notification-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.admin-notification-info {
+    background: #17a2b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-header {
+        padding: 15px 20px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .admin-nav {
+        padding: 0 20px;
+    }
+    
+    .nav-container {
+        gap: 20px;
+    }
+    
+    .admin-nav-item {
+        padding: 15px 0;
+        font-size: 13px;
+    }
+    
+    .admin-main {
+        padding: 20px;
+    }
+    
+    .admin-stats {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .section-header {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .section-content {
+        padding: 20px;
+    }
+    
+    .admin-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-admin {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-main {
+        padding: 15px;
+    }
+    
+    .admin-stats {
+        gap: 15px;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .stat-value {
+        font-size: 24px;
+    }
+    
+    .section-content {
+        padding: 15px;
+    }
+    
+    .alert {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+}
+
+/* Utilidades */
+.text-center { 
+    text-align: center; 
+}
+
+.text-right { 
+    text-align: right; 
+}
+
+.mb-20 { 
+    margin-bottom: 20px; 
+}
+
+.mt-20 { 
+    margin-top: 20px; 
+}
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+/* Estados hover mejorados */
+.stat-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.admin-section:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn-admin:active {
+    transform: translateY(0);
+}
+
+/* Mejoras de accesibilidad */
+.btn-admin:focus,
+.admin-nav-item:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+/* Animaciones suaves */
+.admin-section,
+.stat-card,
+.alert {
+    transition: all 0.3s ease;
+}
+
+/* Dark mode support (preparado para futuro) */
+@media (prefers-color-scheme: dark) {
+    /* Aquí se pueden agregar estilos dark mode cuando sea necesario */
+}

@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - MapVision Analytics</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Panel de administración de MapVision Analytics - Gestión completa de usuarios y sistema">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Webix CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.webix.com/edge/webix.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f6fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        /* Header administrativo */
+        .admin-header {
+            background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 4px 20px rgba(220, 53, 69, 0.3);
+            position: relative;
+        }
+        
+        .admin-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255,255,255,0.03) 10px,
+                rgba(255,255,255,0.03) 20px
+            );
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-shield {
+            font-size: 32px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .brand-info h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .brand-info p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .admin-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .admin-user {
+            text-align: right;
+        }
+        
+        .admin-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .admin-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        .btn-admin {
+            padding: 10px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-admin:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .btn-admin.btn-danger {
+            background: rgba(220, 53, 69, 0.8);
+            border-color: rgba(220, 53, 69, 0.8);
+        }
+        
+        .btn-admin.btn-danger:hover {
+            background: rgba(220, 53, 69, 1);
+        }
+        
+        /* Navegación administrativa */
+        .admin-nav {
+            background: white;
+            border-bottom: 2px solid #e9ecef;
+            padding: 0 30px;
+            overflow-x: auto;
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+        }
+        
+        .admin-nav-item {
+            position: relative;
+            padding: 18px 0;
+            color: #495057;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .admin-nav-item:hover {
+            color: #dc3545;
+        }
+        
+        .admin-nav-item.active {
+            color: #dc3545;
+        }
+        
+        .admin-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #dc3545, #6f42c1);
+            border-radius: 2px;
+        }
+        
+        .nav-icon {
+            font-size: 16px;
+        }
+        
+        /* Contenido principal */
+        .admin-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        /* Dashboard cards */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #dc3545;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), transparent);
+            border-radius: 50%;
+            transform: translate(20px, -20px);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .stat-icon {
+            font-size: 24px;
+            color: #dc3545;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #dc3545;
+            margin: 0;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 5px 0 0 0;
+            font-weight: 500;
+        }
+        
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .stat-trend.up {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .stat-trend.down {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .stat-trend.stable {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        /* Secciones del panel */
+        .admin-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .section-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #e9ecef;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #495057;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 5px 0 0 0;
+        }
+        
+        .section-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .section-content {
+            padding: 30px;
+        }
+        
+        /* Alertas del sistema */
+        .admin-alerts {
+            margin-bottom: 30px;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left-color: #ffc107;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left-color: #dc3545;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left-color: #17a2b8;
+        }
+        
+        .alert-icon {
+            font-size: 18px;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin: 0 0 2px 0;
+        }
+        
+        .alert-message {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        /* Loading states */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            font-size: 18px;
+            color: #dc3545;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #dc3545;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-header {
+                padding: 15px 20px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .admin-nav {
+                padding: 0 20px;
+            }
+            
+            .admin-main {
+                padding: 20px;
+            }
+            
+            .admin-stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .section-content {
+                padding: 20px;
+            }
+        }
+        
+        /* Utilidades */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-20 { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div>Cargando panel administrativo...</div>
+    </div>
+
+    <!-- Header Administrativo -->
+    <header class="admin-header">
+        <div class="header-content">
+            <div class="admin-brand">
+                <div class="admin-shield">🛡️</div>
+                <div class="brand-info">
+                    <h1>Panel de Administración</h1>
+                    <p>MapVision Analytics - Control Total del Sistema</p>
+                </div>
+            </div>
+            
+            <div class="admin-actions">
+                <div class="admin-user">
+                    <div class="admin-name">Cargando...</div>
+                    <div class="admin-badge">Administrador</div>
+                </div>
+                
+                <a href="dashboard.html" class="btn-admin">
+                    📊 Dashboard
+                </a>
+                <a href="#" class="btn-admin btn-danger" onclick="logout()">
+                    🔐 Cerrar Sesión
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegación Administrativa -->
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <a href="#" class="admin-nav-item active" onclick="showAdminSection('overview', this)">
+                <span class="nav-icon">📈</span>
+                Resumen General
+            </a>
+            <a href="#" class="admin-nav-item" onclick="showAdminSection('users', this)">
+                <span class="nav-icon">👥</span>
+                Gestión de Usuarios
+            </a>
+            <a href="#" class="admin-nav-item" onclick="showAdminSection('activity', this)">
+                <span class="nav-icon">📊</span>
+                Actividad del Sistema
+            </a>
+            <a href="#" class="admin-nav-item" onclick="showAdminSection('logs', this)">
+                <span class="nav-icon">📋</span>
+                Logs de Auditoría
+            </a>
+            <a href="#" class="admin-nav-item" onclick="showAdminSection('maintenance', this)">
+                <span class="nav-icon">⚙️</span>
+                Mantenimiento
+            </a>
+            <a href="#" class="admin-nav-item" onclick="showAdminSection('alerts', this)">
+                <span class="nav-icon">🚨</span>
+                Alertas del Sistema
+            </a>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal -->
+    <main class="admin-main">
+        <!-- Alertas del Sistema -->
+        <div id="systemAlerts" class="admin-alerts"></div>
+        
+        <!-- Estadísticas Generales -->
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">👥</span>
+                </div>
+                <h2 class="stat-value" id="totalUsers">-</h2>
+                <p class="stat-label">Total Usuarios</p>
+                <span class="stat-trend up" id="usersTrend">+0 nuevos hoy</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">🟢</span>
+                </div>
+                <h2 class="stat-value" id="onlineUsers">-</h2>
+                <p class="stat-label">Usuarios Conectados</p>
+                <span class="stat-trend stable" id="onlineTrend">Tiempo real</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">📊</span>
+                </div>
+                <h2 class="stat-value" id="activeToday">-</h2>
+                <p class="stat-label">Activos Hoy</p>
+                <span class="stat-trend up" id="activeTrend">+0% vs ayer</span>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-icon">🚨</span>
+                </div>
+                <h2 class="stat-value" id="systemAlertCount">-</h2>
+                <p class="stat-label">Alertas Activas</p>
+                <span class="stat-trend stable" id="alertsTrend">Sistema estable</span>
+            </div>
+        </div>
+
+        <!-- Sección Resumen General -->
+        <div id="overviewSection" class="admin-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        📈 Resumen General del Sistema
+                    </h2>
+                    <p class="section-subtitle">Vista general de la plataforma y métricas clave</p>
+                </div>
+                <div class="section-actions">
+                    <button class="btn-admin" onclick="refreshOverview()">
+                        🔄 Actualizar
+                    </button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="overviewChart" style="height: 400px;"></div>
+            </div>
+        </div>
+
+        <!-- Sección Gestión de Usuarios -->
+        <div id="usersSection" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        👥 Gestión de Usuarios
+                    </h2>
+                    <p class="section-subtitle">Administrar usuarios del sistema</p>
+                </div>
+                <div class="section-actions">
+                    <button class="btn-admin" onclick="exportUsers()">
+                        📥 Exportar
+                    </button>
+                    <button class="btn-admin" onclick="showCreateUserModal()">
+                        ➕ Nuevo Usuario
+                    </button>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="usersGrid" style="height: 600px;"></div>
+            </div>
+        </div>
+
+        <!-- Sección Actividad del Sistema -->
+        <div id="activitySection" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        📊 Actividad del Sistema
+                    </h2>
+                    <p class="section-subtitle">Métricas y estadísticas de uso</p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="activityChart" style="height: 500px;"></div>
+            </div>
+        </div>
+
+        <!-- Sección Logs de Auditoría -->
+        <div id="logsSection" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        📋 Logs de Auditoría
+                    </h2>
+                    <p class="section-subtitle">Registro completo de actividades del sistema</p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="logsGrid" style="height: 600px;"></div>
+            </div>
+        </div>
+
+        <!-- Sección Mantenimiento -->
+        <div id="maintenanceSection" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        ⚙️ Mantenimiento del Sistema
+                    </h2>
+                    <p class="section-subtitle">Tareas de limpieza y optimización</p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="text-center">
+                    <h3 style="margin-bottom: 20px;">Operaciones de Mantenimiento</h3>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn-admin" onclick="performMaintenance('cleanup')">
+                            🧹 Limpiar Datos Antiguos
+                        </button>
+                        <button class="btn-admin" onclick="performMaintenance('sessions')">
+                            🔄 Actualizar Sesiones
+                        </button>
+                        <button class="btn-admin" onclick="performMaintenance('stats')">
+                            📊 Recalcular Estadísticas
+                        </button>
+                    </div>
+                    <div id="maintenanceResults" style="margin-top: 30px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Alertas -->
+        <div id="alertsSection" class="admin-section" style="display: none;">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">
+                        🚨 Alertas del Sistema
+                    </h2>
+                    <p class="section-subtitle">Monitoreo y notificaciones importantes</p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div id="alertsContent"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Webix JS -->
+    <script src="https://cdn.webix.com/edge/webix.js"></script>
+    
+    <!-- Auth Manager -->
+    <script src="js/auth-check.js"></script>
+    
+    <!-- Admin JavaScript -->
+    <script src="admin.js"></script>
+</body>
+</html>item => {
+                item.classList.remove('active');
+            });
+            
+            if (element) {
+                element.classList.add('active');
+            }
+            
+            currentAdminSection = sectionName;
+            
+            // Cargar contenido específico según la sección
+            loadSectionContent(sectionName);
+        }
+        
+        /**
+         * Cargar contenido específico de sección
+         */
+        function loadSectionContent(sectionName) {
+            switch (sectionName) {
+                case 'users':
+                    loadUsersData();
+                    break;
+                case 'activity':
+                    loadActivityData();
+                    break;
+                case 'logs':
+                    loadLogsData();
+                    break;
+            }
+        }
+        
+        /**
+         * Activar/Desactivar usuario
+         */
+        async function toggleUserStatus(email, active) {
+            try {
+                const response = await fetch('api/Admin.php?action=toggle_user_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_email: email,
+                        active: active
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAdminNotification('Estado de usuario actualizado', 'success');
+                    loadUsersData(); // Recargar grid
+                } else {
+                    showAdminNotification(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error cambiando estado de usuario:', error);
+                showAdminNotification('Error cambiando estado de usuario', 'error');
+            }
+        }
+        
+        /**
+         * Ver detalles de usuario
+         */
+        function viewUserDetails(email) {
+            // Implementar modal de detalles de usuario
+            console.log('Ver detalles de usuario:', email);
+        }
+        
+        /**
+         * Realizar mantenimiento
+         */
+        async function performMaintenance(type) {
+            try {
+                showAdminNotification('Ejecutando mantenimiento...', 'info');
+                
+                const response = await fetch('api/Admin.php?action=perform_maintenance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type: type })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAdminNotification('Mantenimiento completado', 'success');
+                    
+                    // Mostrar resultados
+                    const resultsContainer = document.getElementById('maintenanceResults');
+                    resultsContainer.innerHTML = `
+                        <div class="alert alert-info">
+                            <div class="alert-icon">✅</div>
+                            <div class="alert-content">
+                                <div class="alert-title">Mantenimiento Completado</div>
+                                <div class="alert-message">${JSON.stringify(data.results, null, 2)}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    showAdminNotification(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Error en mantenimiento:', error);
+                showAdminNotification('Error ejecutando mantenimiento', 'error');
+            }
+        }
+        
+        /**
+         * Exportar usuarios
+         */
+        async function exportUsers() {
+            try {
+                const response = await fetch('api/Admin.php?action=export_users&format=csv');
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `usuarios_${new Date().toISOString().split('T')[0]}.csv`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    
+                    showAdminNotification('Usuarios exportados correctamente', 'success');
+                } else {
+                    showAdminNotification('Error exportando usuarios', 'error');
+                }
+            } catch (error) {
+                console.error('Error exportando usuarios:', error);
+                showAdminNotification('Error exportando usuarios', 'error');
+            }
+        }
+        
+        /**
+         * Actualizar vista general
+         */
+        function refreshOverview() {
+            loadAdminData();
+            showAdminNotification('Datos actualizados', 'success');
+        }
+        
+        /**
+         * Iniciar actualización automática
+         */
+        function startAutoRefresh() {
+            refreshInterval = setInterval(() => {
+                if (document.visibilityState === 'visible') {
+                    loadAdminData();
+                }
+            }, 30000); // 30 segundos
+        }
+        
+        /**
+         * Mostrar notificación administrativa
+         */
+        function showAdminNotification(message, type = 'info', duration = 5000) {
+            const notification = document.createElement('div');
+            notification.className = `admin-notification admin-notification-${type}`;
+            notification.textContent = message;
+            
+            Object.assign(notification.style, {
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                padding: '15px 20px',
+                borderRadius: '8px',
+                color: 'white',
+                fontWeight: '500',
+                zIndex: '10000',
+                maxWidth: '400px',
+                opacity: '0',
+                transform: 'translateX(100%)',
+                transition: 'all 0.3s ease'
+            });
+            
+            const colors = {
+                'success': '#28a745',
+                'error': '#dc3545',
+                'warning': '#ffc107',
+                'info': '#17a2b8'
+            };
+            
+            notification.style.backgroundColor = colors[type] || colors.info;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, duration);
+        }
+        
+        /**
+         * Ocultar loading
+         */
+        function hideLoading() {
+            const loadingEl = document.getElementById('loadingOverlay');
+            if (loadingEl) {
+                loadingEl.style.opacity = '0';
+                setTimeout(() => {
+                    loadingEl.style.display = 'none';
+                }, 300);
+            }
+        }
+        
+        // Hacer funciones globales
+        window.showAdminSection = showAdminSection;
+        window.toggleUserStatus = toggleUserStatus;
+        window.viewUserDetails = viewUserDetails;
+        window.performMaintenance = performMaintenance;
+        window.exportUsers = exportUsers;
+        window.refreshOverview = refreshOverview;
+        
+        // Limpiar al cerrar
+        window.addEventListener('beforeunload', () => {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        });
+    </script>
+</body>
+</html>

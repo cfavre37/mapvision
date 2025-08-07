@@ -1,0 +1,3 @@
+Pensando que a futuro voy a migrar a otra base de datos, puedes dejar algo más estandar, (sin triggers ni procedimientos almacenados y sql más compatible) .
+Que archivos requieres inspeccionar para ver los cambios que necesitas hacer, pidemelos y te los adjunto.
+Preguntame si tienes dudas

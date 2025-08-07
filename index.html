@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MapVision Analytics - Mapas Inteligentes con IA</title>
+    
+    <!-- Meta tags SEO -->
+    <meta name="description" content="MapVision Analytics - Plataforma de análisis de mapas inteligentes con IA. Visualiza desviaciones bidimensionales, análisis automático y control de compromisos empresariales.">
+    <meta name="keywords" content="mapas, analytics, IA, business intelligence, visualización de datos, análisis empresarial">
+    <meta name="author" content="MapVision Analytics">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="MapVision Analytics - Mapas Inteligentes con IA">
+    <meta property="og:description" content="Visualiza el cumplimiento bidimensional de tus resultados vs metas con análisis automático de IA.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mapvision.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.webix.com/edge/webix.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/auth-modal.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo-container">
+                <div class="logo">📊</div>
+                <span class="brand-name">MapVision Analytics</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Características</a>
+                <a href="#solutions" class="nav-link">Soluciones</a>
+                <a href="#pricing" class="nav-link">Precios</a>
+                <a href="#support" class="nav-link">Soporte</a>
+            </div>
+
+            <!-- Botones para usuarios no autenticados -->
+            <div class="cta-buttons no-auth-required" id="guestButtons">
+                <a href="#" class="btn-secondary" onclick="showAuthModal('login')">Iniciar Sesión</a>
+                <a href="#" class="btn-primary" onclick="showAuthModal('register')">Ver Demo</a>
+            </div>
+            
+            <!-- Menú para usuarios autenticados -->
+            <div class="user-menu auth-required" id="userMenu">
+                <span class="user-welcome">
+                    Hola, <span class="user-name">Usuario</span>
+                </span>
+                <div class="user-dropdown">
+                    <div class="user-avatar" onclick="toggleUserDropdown()">
+                        <span class="user-initials">U</span>
+                    </div>
+                </div>
+                <a href="dashboard.html" class="btn-primary">Dashboard</a>
+                <a href="#" class="btn-secondary" onclick="logout()">Cerrar Sesión</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>💎</span>
+                <span>Nuevo: Análisis IA automatizado</span>
+            </div>
+            
+            <h1 class="hero-title">
+                Mapas de desviaciones de cumplimiento <br>Impulsados por IA
+            </h1>
+            
+            <p class="hero-subtitle">
+                Visualiza el cumplimiento bidimensional de tus resultados vs metas. 
+                Análisis automático con IA de desviaciones, ordenamiento & drilldown inteligente y control total de compromisos empresariales.
+            </p>
+            
+            <div class="hero-cta">
+                <a href="#" class="btn-hero-primary no-auth-required" onclick="showAuthModal('register')">🚀 Comenzar Gratis</a>
+                <a href="dashboard.html" class="btn-hero-primary auth-required" style="display: none;">🚀 Ir al Dashboard</a>
+                <a href="#video" class="btn-hero-secondary">▶️ Ver Demo</a>
+            </div>
+
+            <!-- Dashboard Preview -->
+            <div class="dashboard-preview floating">
+                <div class="preview-card">
+                    <div class="preview-image">
+                        <div class="preview-mockup">
+                            <div class="mockup-header">
+                                <div class="mockup-title">Mapa de Desviaciones de Cumplimiento</div>
+                                <div class="mockup-ai-badge">💎 Análisis IA</div>
+                            </div>
+                            <div class="mockup-heatmap">
+                                <!-- KPI Indicators -->
+                                <div class="kpi-indicators">
+                                    <div class="kpi-indicator up"></div>
+                                    <div class="kpi-indicator down"></div>
+                                    <div class="kpi-indicator stable"></div>
+                                </div>
+                                
+                                <!-- Corner -->
+                                <div class="heatmap-corner"></div>
+                                
+                                <!-- Column Headers -->
+                                <div class="heatmap-col-header">Productos A</div>
+                                <div class="heatmap-col-header">Productos B</div>
+                                <div class="heatmap-col-header">Productos C</div>
+                                
+                                <!-- Row 1 -->
+                                <div class="heatmap-row-header">Norte</div>
+                                <div class="heatmap-cell green">
+                                    <div class="heatmap-value">+24</div>
+                                    <div class="heatmap-percent">+12%</div>
+                                </div>
+                                <div class="heatmap-cell yellow">
+                                    <div class="heatmap-value">-8</div>
+                                    <div class="heatmap-percent">-3%</div>
+                                </div>
+                                <div class="heatmap-cell red">
+                                    <div class="heatmap-value">-45</div>
+                                    <div class="heatmap-percent">-18%</div>
+                                </div>
+                                
+                                <!-- Row 2 -->
+                                <div class="heatmap-row-header">Centro</div>
+                                <div class="heatmap-cell yellow">
+                                    <div class="heatmap-value">-12</div>
+                                    <div class="heatmap-percent">-5%</div>
+                                </div>
+                                <div class="heatmap-cell green">
+                                    <div class="heatmap-value">+67</div>
+                                    <div class="heatmap-percent">+25%</div>
+                                </div>
+                                <div class="heatmap-cell green">
+                                    <div class="heatmap-value">+33</div>
+                                    <div class="heatmap-percent">+15%</div>
+                                </div>
+                                
+                                <!-- Row 3 -->
+                                <div class="heatmap-row-header">Sur</div>
+                                <div class="heatmap-cell red">
+                                    <div class="heatmap-value">-78</div>
+                                    <div class="heatmap-percent">-32%</div>
+                                </div>
+                                <div class="heatmap-cell yellow">
+                                    <div class="heatmap-value">-5</div>
+                                    <div class="heatmap-percent">-2%</div>
+                                </div>
+                                <div class="heatmap-cell green">
+                                    <div class="heatmap-value">+19</div>
+                                    <div class="heatmap-percent">+8%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-header">
+            <h2 class="features-title">Control de gestión con análisis bidimensional</h2>
+            <p class="features-subtitle">
+                Herramienta gráfica avanzada para visualizar desviaciones v/s planificación en tiempo real
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💎</div>
+                <h3 class="feature-title">Análisis IA</h3>
+                <p class="feature-description">
+                    Inteligencia artificial que explica automáticamente tus heatmaps y genera insights accionables en segundos.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon heatmap-icon">
+                    <img src="./img/mapa_sf41.png" alt="Heatmap" class="feature-icon-img">
+                </div>
+                <h3 class="feature-title">Mapas de Desviaciones</h3>
+                <p class="feature-description">
+                    Visualiza simultáneamente desviaciones en dos dimensiones. Analiza "dónde" y "en qué" ocurren las variaciones con codificación de colores paramétrica.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Control Compromisos</h3>
+                <p class="feature-description">
+                    Define objetivos, rastrea el progreso y mantén a tu equipo alineado con metas claras y medibles.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💡</div>
+                <h3 class="feature-title">Insights Automáticos</h3>
+                <p class="feature-description">
+                    Descubre patrones ocultos y tendencias importantes que podrían pasar desapercibidas en análisis manual.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">Drilldown Inteligente</h3>
+                <p class="feature-description">
+                    Expande coordenadas críticas para obtener vistas granulares. Identifica causas específicas ordenadas por magnitud de desviaciones.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3 class="feature-title">Seguridad Empresarial</h3>
+                <p class="feature-description">
+                    Cumplimiento SOC2, encriptación end-to-end y controles de acceso granulares para proteger tus datos.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="cta-title">¿Listo para transformar tus datos?</h2>
+        <p class="cta-subtitle">
+            Únete a más de 1.000 empresas que ya usan MapVision Analytics para tomar mejores decisiones.
+        </p>
+        <div class="hero-cta">
+            <a href="#" class="btn-hero-primary no-auth-required" onclick="showAuthModal('register')">Solicitar cuenta trial</a>
+            <a href="dashboard.html" class="btn-hero-primary auth-required" style="display: none;">Ir al Dashboard</a>
+            <a href="#contact" class="btn-hero-secondary">Contáctanos</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-container">
+                    <div class="logo">📊</div>
+                    <span class="brand-name">MapVision Analytics</span>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <a href="#producto" class="footer-link">Producto</a>
+                <a href="#precios" class="footer-link">Precios</a>
+                <a href="#empresa" class="footer-link">Empresa</a>
+                <a href="#recursos" class="footer-link">Recursos</a>
+                <a href="#soporte" class="footer-link">Soporte</a>
+                <a href="#contacto" class="footer-link">Contacto</a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 MapVision Analytics. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.webix.com/edge/webix.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/auth-forms.js"></script>
+    <script src="js/landing-page.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
